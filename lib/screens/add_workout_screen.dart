@@ -12,6 +12,7 @@ class AddWorkoutScreen extends StatefulWidget {
 class _AddWorkoutScreenState extends State<AddWorkoutScreen> {
   final _formKey = GlobalKey<FormState>();
   String _name = '';
+  String _type = 'Cardio'; // Default workout type
   int _duration = 0;
   int _caloriesBurned = 0;
 
@@ -21,6 +22,7 @@ class _AddWorkoutScreenState extends State<AddWorkoutScreen> {
       final newWorkout = Workout(
         id: Uuid().v4(),
         name: _name,
+        type: _type,
         date: DateTime.now(),
         duration: _duration,
         caloriesBurned: _caloriesBurned,
@@ -52,6 +54,21 @@ class _AddWorkoutScreenState extends State<AddWorkoutScreen> {
                 },
                 onSaved: (value) {
                   _name = value!;
+                },
+              ),
+              DropdownButtonFormField<String>(
+                value: _type,
+                decoration: InputDecoration(labelText: 'Workout Type'),
+                items: ['Cardio', 'Strength', 'Flexibility', 'Balance']
+                    .map((type) => DropdownMenuItem(
+                  child: Text(type),
+                  value: type,
+                ))
+                    .toList(),
+                onChanged: (value) {
+                  setState(() {
+                    _type = value!;
+                  });
                 },
               ),
               TextFormField(

@@ -1,20 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import './providers/workouts.dart';
+import './screens/home_screen.dart';
+import './screens/summary_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.black26,
-          title: Text("Fitness Club"),
+    return ChangeNotifierProvider(
+      create: (ctx) => WorkoutsProvider(),
+      child: MaterialApp(
+        title: 'Fitness Tracker',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: DefaultTabController(
+          length: 2,
+          child: HomeScreen(),
         ),
       ),
     );

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/workouts.dart';
 import '../screens/add_workout_screen.dart';
+import '../screens/summary_screen.dart';
+import '../screens/goals_screen.dart';  // Import the new screen
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -9,6 +11,27 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Fitness Tracker'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.bar_chart),
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (ctx) => DefaultTabController(
+                  length: 2,
+                  child: SummaryScreen(),
+                ),
+              ));
+            },
+          ),
+          IconButton(
+            icon: Icon(Icons.flag),
+            onPressed: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (ctx) => GoalsScreen(),
+              ));
+            },
+          ),
+        ],
       ),
       body: FutureBuilder(
         future: Provider.of<WorkoutsProvider>(context, listen: false).loadWorkouts(),
@@ -22,7 +45,7 @@ class HomeScreen extends StatelessWidget {
               return ListTile(
                 title: Text(workout.name),
                 subtitle: Text(
-                  '${workout.duration} mins, ${workout.caloriesBurned} cal',
+                  '${workout.type}, ${workout.duration} mins, ${workout.caloriesBurned} cal',
                 ),
                 trailing: IconButton(
                   icon: Icon(Icons.delete),
